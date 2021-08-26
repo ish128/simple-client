@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_DIR" value="./"/>
+    
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <layout class="ch.qos.logback.classic.PatternLayout">
+          <pattern>%d{yyyyMMddHHmmss}|%.-1level|%msg%n</pattern>
+      </layout>
+    </appender>
+    
+    <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/out.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/%d{yyyyMM}/%d{dd}/%d{yyyy-MM-dd_HH}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>20GB</totalSizeCap>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyyMMddHHmmss}|%.-1level|%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="client" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE-ROLLING"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="FILE-ROLLING"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>
