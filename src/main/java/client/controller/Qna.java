@@ -24,6 +24,10 @@ public class Qna {
 	private String title;
 	private String content;
 	
+	private Gender gender;
+	private Language[] language;
+	private Fruit[] fruit; 
+	
 	private LocalDateTime createdDate;
 	private LocalDateTime lastUpdatedDate; 
 	

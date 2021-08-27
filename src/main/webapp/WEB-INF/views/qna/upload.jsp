@@ -9,7 +9,9 @@
 <script src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function(){ 
-
+	$("#btnAddFile").on("click", function(){
+		$("#divAttachFiles").append("<input type='file' name='attachFile'>"); 
+	}); 
 });
 	
 function fn_save(){  
@@ -20,15 +22,14 @@ function fn_save(){
 </head>
 <body> 
 
-<form:form modelAttribute="qna" name="qnaFrm" method="post" action="${pageContext.request.contextPath}/qna" onsubmit="fn_save()">
+<form:form modelAttribute="qna" name="qnaFrm" method="post" action="${pageContext.request.contextPath}/qna" enctype="multipart/form-data" onsubmit="fn_save()">
 	<section>
 		<article>ID: 	<form:input path="userId"/><form:errors path="userId"/></article>		
 		<article>TITLE: <form:input path="title"/></article>
-		<article>CONTENT: <form:textarea path="content" cols="50" rows="5" /></article>  
-		<article>성별 : <form:radiobuttons path="gender" items="${genderItem}" /></article>  
-		<article>언어 : <form:checkboxes path="language" items="${languageItem}" /></article> 
-		<article>과일 : <form:select path="fruit" items="${fruitItem}" multiple="true"/></article> 
-		
+		<article>CONTENT: <form:textarea path="content" cols="50" rows="5" /></article> 
+		<article>FILES: <div id="divAttachFiles">
+		<form:input path="attachFile" type="file" name='attachFile'/>
+		</div><input type="button" id="btnAddFile" value="Add File"/></article>  
 	</section>
 	<section>
 		<input type="submit" value="Save Changes"/> 

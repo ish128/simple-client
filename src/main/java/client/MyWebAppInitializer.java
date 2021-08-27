@@ -25,9 +25,8 @@ public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServl
     }
     
     @Override
-    protected Filter[] getServletFilters() {
-        return new Filter[] {
-            new HiddenHttpMethodFilter(), new CharacterEncodingFilter("UTF-8") };
+    protected Filter[] getServletFilters() { 
+        return new Filter[] {new CharacterEncodingFilter("UTF-8", true)}; // dispatcher servlet 이 필터 등록 
     }
     
 //    @Override
