@@ -22,7 +22,7 @@ function fn_save(){
 </head>
 <body> 
 
-<form:form modelAttribute="qna" name="qnaFrm" method="post" action="${pageContext.request.contextPath}/qna" enctype="multipart/form-data" onsubmit="fn_save()">
+<form:form modelAttribute="qnaForm" name="qnaFrm" method="post" action="${pageContext.request.contextPath}/qna" enctype="multipart/form-data" onsubmit="fn_save()">
 	<section>
 		<article>ID: 	<form:input path="userId"/><form:errors path="userId"/></article>		
 		<article>TITLE: <form:input path="title"/></article>

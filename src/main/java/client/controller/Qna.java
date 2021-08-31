@@ -1,6 +1,9 @@
 package client.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonAlias;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,8 +30,9 @@ public class Qna {
 	private Gender gender;
 	private Language[] language;
 	private Fruit[] fruit; 
+	private List<FileInfo> attachFiles;
 	
 	private LocalDateTime createdDate;
-	private LocalDateTime lastUpdatedDate; 
+	private LocalDateTime lastUpdatedDate;  
 	
 }

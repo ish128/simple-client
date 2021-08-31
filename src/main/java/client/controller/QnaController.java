@@ -3,6 +3,7 @@ package client.controller;
  
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -49,29 +50,44 @@ public class QnaController {
 		dataBinder.addValidators(qnaValidator);
 	}
 	
+	@ModelAttribute("genderItem")
+	public Gender[] genderItem() {
+		return Gender.values();
+	}
+	
+	@ModelAttribute("languageItem")
+	public Language[] languageItem() {
+		return Language.values();
+	}
+	
+	@ModelAttribute("fruitItem")
+	public Map<String,String> fruitItem() {
+		return Fruit.toMap();
+	}
+	
 	@GetMapping
-	public String qna(HttpServletRequest request, Model model) {  
-		model.addAttribute("genderItem", Gender.values());
-		model.addAttribute("languageItem", Language.values());  
-		model.addAttribute("fruitItem", Fruit.toMap());  
-		model.addAttribute("qna", request.getAttribute("qna")!=null? request.getAttribute("qna") : new QnaForm()); 
+	public String qnaForm(HttpServletRequest request, Model model) {  
+//		model.addAttribute("genderItem", Gender.values());
+//		model.addAttribute("languageItem", Language.values());  
+//		model.addAttribute("fruitItem", Fruit.toMap());  
+		model.addAttribute("qnaForm", request.getAttribute("qnaForm")!=null? request.getAttribute("qnaForm") : new QnaForm()); 
 		return "qna/main";
 	}
 	
 	@PostMapping
 	public String saveQna(
 			@Validated 
-			@ModelAttribute QnaForm qna, BindingResult bindingResult,  
+			@ModelAttribute("qnaForm") QnaForm qnaForm, BindingResult bindingResult,  
 			Model model, RedirectAttributes redirectAttributes) {  
 		
 		if (bindingResult.hasErrors()) { 
-			model.addAttribute("genderItem", Gender.values());
-			model.addAttribute("languageItem", Language.values());  
-			model.addAttribute("fruitItem", Fruit.toMap());  
+//			model.addAttribute("genderItem", Gender.values());
+//			model.addAttribute("languageItem", Language.values());  
+//			model.addAttribute("fruitItem", Fruit.toMap());  
 			return "qna/main";
 		}     
 		 
-		QnaForm result = qnaService.saveQna(qna);  
+		Qna result = qnaService.saveQna(qnaForm);  
 		redirectAttributes.addAttribute("qnaId", result.getId());
 		return "redirect:/qna/{qnaId}";
 	}
@@ -80,7 +96,7 @@ public class QnaController {
 	@GetMapping("/{qnaId}")
 	public String qna(@PathVariable("qnaId") Long qnaId, Model model) { 
 		ResponseEntity<QnaForm> responseEntity = restTemplate.getForEntity("http://localhost:3000/qna/{id}", QnaForm.class, qnaId);     
-		model.addAttribute("qna", responseEntity.getBody());  
+		model.addAttribute("qnaForm", responseEntity.getBody());  
 		return "forward:/qna";
 	}  
  

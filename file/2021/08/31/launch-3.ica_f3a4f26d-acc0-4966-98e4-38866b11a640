@@ -18,23 +18,23 @@ VirtualCOMPortEmulation=Off
 TIDC=
 
 [TIDC]
-Address=;10;STA621F89196C19;2F60D843C1B62731FFD4DD0F9360A96E
+Address=;10;STA621F89196C19;258AE95C0708AB772BF96BE80760B74E
 AutologonAllowed=ON
 BrowserProtocol=HTTPonTCP
-ClearPassword=25E92C2A2420E8
+ClearPassword=D1B20E5EE41225
 ClientAudio=On
 DesiredColor=8
 DesiredHRES=0
 DesiredVRES=0
 DoNotUseDefaultCSL=On
-Domain=\16FD55A61A87A641
+Domain=\801A46F5496BBD4F
 FontSmoothingType=0
 HTTPBrowserAddress=!
 InitialProgram=#TIDC
-LaunchReference=DGSOs7KsFk1/Ls8OF3Z9Y2UMBFgetMnebA3ja1SMoDc=
+LaunchReference=CtCRRlYCi65FAA9biq/GIgOlAMDOWgE1ePL++oVMISE=
 Launcher=WI
 LocHttpBrowserAddress=!
-LogonTicket=25E92C2A2420E816FD55A61A87A641
+LogonTicket=D1B20E5EE41225801A46F5496BBD4F
 LogonTicketType=CTXS1
 LongCommandLine=
 ProxyTimeout=30000
@@ -44,7 +44,7 @@ SSLCiphers=all
 SSLEnable=On
 SSLProxyHost=fidcsbc.sktelecom.com:443
 SecureChannelProtocol=Detect
-SessionsharingKey=-1yDdK4m8iD9UPcDzlGbb5t
+SessionsharingKey=-KTxkNkSTRUoQ3q5waKqXDT
 TWIMode=On
 Title=TIDC
 TransportDriver=TCP/IP

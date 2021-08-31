@@ -33,8 +33,5 @@ public class QnaForm {
 	private Fruit[] fruit;  
 	
 	@JsonIgnore
-	private List<MultipartFile> attachFile;
-	
-	@JsonAlias("attachFile")
-	private List<FileInfo> attachFileInfo;
+	private List<MultipartFile> attachFile; 
 }
