@@ -21,7 +21,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 
 import client.RestTemplateConfig; 
-import client.controller.Qna;
+import client.controller.QnaForm;
 import lombok.extern.slf4j.Slf4j;
 
  
@@ -40,26 +40,26 @@ public class RestTemplateConfigTest {
 	
 	@Test
 	void getForEntity() {  
-		ResponseEntity<Qna> responseEntity = restTemplate.getForEntity("http://localhost:3000/qna/{id}", Qna.class, 1);   
+		ResponseEntity<QnaForm> responseEntity = restTemplate.getForEntity("http://localhost:3000/qna/{id}", QnaForm.class, 1);   
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(responseEntity.getBody().getId()).isEqualTo(1);
 	}
 	
 	@Test
 	void postForEntity() {   
-		HttpEntity<Qna> request = new HttpEntity<>(
-				Qna.builder()
+		HttpEntity<QnaForm> request = new HttpEntity<>(
+				QnaForm.builder()
 				.userId(RandomString.make(5))
 				.title("test title")
 				.content("test content") 
 				.build());
 		
-		Qna response =  restTemplate.postForObject("http://localhost:3000/qna", request, Qna.class); 
+		QnaForm response =  restTemplate.postForObject("http://localhost:3000/qna", request, QnaForm.class); 
 
 		assertThat(response.getId()).isNotNull();
 		log.info(response.toString());
 		
-		ResponseEntity<Qna> responseEntity = restTemplate.getForEntity("http://localhost:3000/qna/{id}", Qna.class,response.getId());   
+		ResponseEntity<QnaForm> responseEntity = restTemplate.getForEntity("http://localhost:3000/qna/{id}", QnaForm.class,response.getId());   
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(responseEntity.getBody().getId()).isEqualTo(response.getId());
 	}
@@ -72,7 +72,7 @@ public class RestTemplateConfigTest {
 		HttpEntity<?> entity = new HttpEntity<String>(headers);  
 		
 		//when
-		ResponseEntity<Qna> responseEntity = restTemplate.exchange("http://localhost:3000/qna/{id}", HttpMethod.GET, entity, Qna.class, 1L); 
+		ResponseEntity<QnaForm> responseEntity = restTemplate.exchange("http://localhost:3000/qna/{id}", HttpMethod.GET, entity, QnaForm.class, 1L); 
 		
 		//then
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);  
@@ -84,15 +84,15 @@ public class RestTemplateConfigTest {
 		//given
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));   
-		HttpEntity<?> entity = new HttpEntity<Qna>(
-				Qna.builder()
+		HttpEntity<?> entity = new HttpEntity<QnaForm>(
+				QnaForm.builder()
 				.userId(RandomString.make(5))
 				.title("test title")
 				.content("test content") 
 				.build(), headers);   
 		
 		//when
-		ResponseEntity<Qna> responseEntity = restTemplate.exchange("http://localhost:3000/qna", HttpMethod.POST, entity, Qna.class); 
+		ResponseEntity<QnaForm> responseEntity = restTemplate.exchange("http://localhost:3000/qna", HttpMethod.POST, entity, QnaForm.class); 
 		
 		//then
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);  

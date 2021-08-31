@@ -11,7 +11,7 @@ public class QnaValidator implements Validator {
 	
 	@Override
 	public boolean supports(Class<?> candidate) {
-        return Qna.class.isAssignableFrom(candidate);
+        return QnaForm.class.isAssignableFrom(candidate);
     }
 	
 	@Override

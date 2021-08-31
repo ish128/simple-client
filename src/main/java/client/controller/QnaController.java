@@ -24,9 +24,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.RestTemplate; 
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
- 
+
+import client.service.QnaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,6 +41,7 @@ public class QnaController {
 	
 	private final RestTemplate restTemplate; 
 	private final QnaValidator qnaValidator; 
+	private final QnaService qnaService; 
 	
 	@InitBinder
 	public void init(WebDataBinder dataBinder) {
@@ -50,14 +54,15 @@ public class QnaController {
 		model.addAttribute("genderItem", Gender.values());
 		model.addAttribute("languageItem", Language.values());  
 		model.addAttribute("fruitItem", Fruit.toMap());  
-		model.addAttribute("qna", request.getAttribute("qna")!=null? request.getAttribute("qna") : new Qna()); 
+		model.addAttribute("qna", request.getAttribute("qna")!=null? request.getAttribute("qna") : new QnaForm()); 
 		return "qna/main";
 	}
 	
 	@PostMapping
 	public String saveQna(
 			@Validated 
-			@ModelAttribute Qna qna, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {  
+			@ModelAttribute QnaForm qna, BindingResult bindingResult,  
+			Model model, RedirectAttributes redirectAttributes) {  
 		
 		if (bindingResult.hasErrors()) { 
 			model.addAttribute("genderItem", Gender.values());
@@ -65,24 +70,16 @@ public class QnaController {
 			model.addAttribute("fruitItem", Fruit.toMap());  
 			return "qna/main";
 		}     
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));   
-		HttpEntity<?> entity = new HttpEntity<Qna>(qna, headers);    
-		ResponseEntity<Qna> responseEntity = restTemplate.exchange("http://localhost:3000/qna", HttpMethod.POST, entity, Qna.class);  
-		
-		if(responseEntity.getStatusCode() != HttpStatus.CREATED) {
-			throw new RuntimeException("failed created!");
-		}
-		
-		redirectAttributes.addAttribute("qnaId", responseEntity.getBody().getId());
+		 
+		QnaForm result = qnaService.saveQna(qna);  
+		redirectAttributes.addAttribute("qnaId", result.getId());
 		return "redirect:/qna/{qnaId}";
 	}
 	
 	
 	@GetMapping("/{qnaId}")
 	public String qna(@PathVariable("qnaId") Long qnaId, Model model) { 
-		ResponseEntity<Qna> responseEntity = restTemplate.getForEntity("http://localhost:3000/qna/{id}", Qna.class, qnaId);     
+		ResponseEntity<QnaForm> responseEntity = restTemplate.getForEntity("http://localhost:3000/qna/{id}", QnaForm.class, qnaId);     
 		model.addAttribute("qna", responseEntity.getBody());  
 		return "forward:/qna";
 	}  
